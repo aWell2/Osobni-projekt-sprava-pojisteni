@@ -1,0 +1,110 @@
+﻿@model Projekt.Models.Insurence
+
+@{
+	ViewData["Title"] = "Podrobnosti";
+}
+
+<h1>Podrobnosti</h1>
+
+<div>
+	<h4>Pojištění</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TypeOfInsurence)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TypeOfInsurence)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Amount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Amount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ValidFrom)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ValidFrom)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ValidUntil)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ValidUntil)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.SubjectOfInsurence)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.SubjectOfInsurence)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.InsurenceHolder)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.InsurenceHolder.FirstName)
+			@Html.DisplayFor(model => model.InsurenceHolder.LastName)
+			:
+			@Html.DisplayFor(model => model.InsurenceHolder.Email)
+		</dd>
+	</dl>
+</div>
+<div class="mb-3">
+	@if (User.IsInRole("admin"))
+	{
+		<a asp-action="Edit" asp-route-id="@Model?.Id" asp-route-insurenceHolderRouteId="@ViewBag?.insurenceHolderRouteId">Upravit</a>
+		<text>|</text>
+	}
+	<a asp-action="Index">Zpátky na seznam pojištění</a> |
+	<a asp-action="Details" asp-controller="InsurenceHolders" asp-route-id="@Model.InsurenceHolder.Id">Zpátky na pojištěnce</a>
+
+</div>
+
+
+<div class="table-responsive">
+	<h4>Seznam pojistných událostí</h4>
+	<table class="table table-hover table-bordered">
+		<thead class="table-light">
+			<tr>
+				<th>Popis</th>
+				<th>Místo</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.InsurenceEvents)
+			{
+				<tr>
+					@if (item.Description.Length > 15)
+					{
+						string descriptionShortened = item.Description.Substring(0, 12);
+						<td>@descriptionShortened...</td>
+					}
+					else
+					{
+						<td>@Html.DisplayFor(modelitem => item.Description)</td>
+					}
+					<td>@Html.DisplayFor(modelitem => item.PlaceOfEvent)</td>
+					<td>
+						<a asp-action="Details" asp-controller="InsurenceEvents" asp-route-id="@item.Id" asp-route-insurenceRouteId="@Model?.Id">Podrobnosti</a>
+						@if (User.IsInRole("admin"))
+						{
+							<text>|</text>
+							<a asp-action="Edit" asp-controller="InsurenceEvents" asp-route-id="@item.Id" asp-route-insurenceRouteId="@Model?.Id">Upravit</a>
+							<text>|</text>
+							<a asp-action="Delete" asp-controller="InsurenceEvents" asp-route-id="@item.Id" asp-route-insurenceRouteId="@Model?.Id">Odstranit</a>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@if (User.IsInRole("admin"))
+{
+	<a class="btn btn-success" asp-action="Create" asp-controller="insurenceEvents" asp-route-insurenceId="@Model?.Id">Vytvořit pojistnou událost</a>
+}
+

@@ -1,0 +1,115 @@
+﻿@model PaginatedList<Projekt.Models.Insurence>
+
+@{
+	ViewData["Title"] = "Seznam pojištění";
+}
+
+<h1>Seznam pojištění</h1>
+
+<p>
+	@if (User.IsInRole("admin"))
+	{
+		<a class="btn btn-success" asp-action="Create">Vytvořit pojištění</a>
+	}
+</p>
+<form asp-action="Index" method="get">
+	<div class="d-flex align-items-center gap-2">
+		<div>
+			Hledat pomocí jména: <input type="text" name="SearchString" value="@ViewBag.CurrentFilter" class="index-custom-form" />
+		</div>
+		<div>
+			<select name="dropdownSearchString" class="index-custom-form">
+				<option value="">Zvolte Možnost</option>
+				<option value="Pojištění osob" selected="@("Pojištění osob" == ViewBag.DropdownSearchString)">Pojištění osob</option>
+				<option value="Pojištění majetku" selected="@("Pojištění majetku" == ViewBag.DropdownSearchString)">Pojištění majetku</option>
+				<option value="Pojištění právní ochrany" selected="@("Pojištění právní ochrany" == ViewBag.DropdownSearchString)">Pojištění právní ochrany</option>
+				<option value="Pojištění odpovědnosti" selected="@("Pojištění odpovědnosti" == ViewBag.DropdownSearchString)">Pojištění odpovědnosti</option>
+				<option value="Pojištění úvěru nebo záruky" selected="@("Pojištění úvěru nebo záruky" == ViewBag.DropdownSearchString)">Pojištění úvěru nebo záruky</option>
+				<option value="Pojištění finační ztráty" selected="@("Pojištění finační ztráty" == ViewBag.DropdownSearchString)">Pojištění finanční ztráty</option>
+				<option value="Vlastní" selected="@("Vlastní" == ViewBag.DropdownSearchString)">Vlastní</option>
+			</select>
+		</div>
+		<div>
+			<input type="submit" value="Vyhledat" class="btn btn-primary" /> |
+		</div>
+		<div>
+			<a asp-action="Index">Zpátky na seznam</a>
+		</div>
+
+	</div>
+
+</form>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Druh pojištění
+				</th>
+				<th>
+					Částka
+				</th>
+				<th>
+					Platnost od
+				</th>
+				<th>
+					<a asp-action="Index" asp-route-sortOrder="@ViewBag.DateSort">Platnost do</a>
+				</th>
+				<th>
+					Předmět pojištění
+				</th>
+				<th>
+					Pojištěnec
+				</th>
+				<th>
+					<a asp-action="Index" asp-route-sortOrder="@ViewBag.CountSort">Počet pojistných událostí</a>
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.TypeOfInsurence)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Amount)
+						Kč
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ValidFrom)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ValidUntil)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.SubjectOfInsurence)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.InsurenceHolder.FirstName)
+						@Html.DisplayFor(modelItem => item.InsurenceHolder.LastName)
+						:
+						@Html.DisplayFor(modelItem => item.InsurenceHolder.Email)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.InsurenceEventsCount)
+					</td>
+					<td>
+						<a asp-action="Details" asp-route-id="@item.Id">Podrobnosti</a>
+						@if (User.IsInRole("admin"))
+						{
+							<text>|</text>
+							<a asp-action="Edit" asp-route-id="@item.Id">Upravit</a>
+							<text>|</text>
+							<a asp-action="Delete" asp-route-id="@item.Id">Odstranit</a>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+<partial name="_Pagination" />

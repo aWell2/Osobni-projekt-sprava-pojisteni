@@ -1,0 +1,107 @@
+﻿@model PaginatedList<Projekt.Models.InsurenceHolder>
+
+@{
+	ViewData["Title"] = "Seznam pojištěnců";
+}
+
+<h1>Seznam pojištěnců</h1>
+
+<p>
+	@if (User.IsInRole("admin"))
+	{
+		<a class="btn btn-success" asp-action="Create">Vytvořit pojištěnce</a>
+	}
+</p>
+<form asp-action="Index" method="get">
+	<div class="d-flex align-items-center gap-2">
+		<div>
+			Hledat pomocí jména: <input type="text" name="SearchString" value="@ViewBag.CurrentFilter" class="index-custom-form" />
+		</div>
+		<div>
+			<input type="submit" value="Vyhledat" class="btn btn-primary" /> |
+		</div>
+		<div>
+			<a asp-action="Index">Zpátky na seznam</a>
+		</div>
+	</div>
+</form>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Křestní jméno
+				</th>
+				<th>
+					<a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">Příjmení</a>
+				</th>
+				<th>
+					Telefonní číslo
+				</th>
+				<th>
+					Email
+				</th>
+				<th>
+					Ulice a číslo popisné
+				</th>
+				<th>
+					Město
+				</th>
+				<th>
+					Poštovní směrovací číslo
+				</th>
+				<th>
+					<a asp-action="Index" asp-route-sortOrder="@ViewBag.CountSort">Počet pojištění</a>
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.FirstName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.LastName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.PhoneNumber)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Email)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Street)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.City)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.PostalCode)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.InsurenceCount)
+					</td>
+					<td>
+						<a asp-action="Details" asp-route-id="@item.Id">Podrobnosti</a>
+						@if (User.IsInRole("admin"))
+						{
+							<text>|</text>
+							<a asp-action="Edit" asp-route-id="@item.Id">Upravit</a>
+							<text>|</text>
+							<a asp-action="Delete" asp-route-id="@item.Id">Odstranit</a>
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+
+<partial name="_Pagination" />
+
+
+

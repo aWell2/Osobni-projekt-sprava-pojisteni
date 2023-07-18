@@ -1,0 +1,51 @@
+﻿@model Projekt.Models.InsurenceEvent
+
+@{
+	ViewData["Title"] = "Podrobnosti";
+}
+
+<h1>Podrobnosti</h1>
+
+<div class="mb-4">
+	<h4>Pojistná událost</h4>
+	<hr />
+	<div>
+		<dl class="row">
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.TimeOfEvent)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.TimeOfEvent)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.PlaceOfEvent)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.PlaceOfEvent)
+			</dd>
+			<dt class="col-sm-2">
+				Pojištěnec
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Insurence.InsurenceHolder.FirstName)
+				@Html.DisplayFor(model => model.Insurence.InsurenceHolder.LastName)
+				:
+				@Html.DisplayFor(model => model.Insurence.InsurenceHolder.Email)
+			</dd>
+		</dl>
+	</div>
+	<div>
+		@if (User.IsInRole("admin"))
+		{
+			<a asp-action="Edit" asp-route-id="@Model?.Id" asp-route-insurenceRouteId="@ViewBag?.insurenceRouteId">Upravit</a>
+			<text>|</text>
+		}
+		<a asp-action="Index">Zpátky na události</a> |
+		<a asp-action="Details" asp-controller="Insurences" asp-route-id="@Model?.InsurenceId">Zpátky na pojištění</a> |
+		<a asp-action="Details" asp-controller="InsurenceHolders" asp-route-id="@Model.Insurence.InsurenceHolderId">Zpátky na pojištěnce</a>
+	</div>
+</div>
+<div>
+	<h4>@Html.DisplayNameFor(model => model.Description)</h4>
+	<p>@Html.DisplayFor(model => model.Description)</p>
+</div>

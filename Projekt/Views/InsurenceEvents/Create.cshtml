@@ -1,0 +1,63 @@
+﻿@model Projekt.Models.InsurenceEvent
+
+@{
+	ViewData["Title"] = "Vytvořit";
+}
+
+<h1>
+	Vytvořit
+	@if (ViewBag.Insurence != null)
+	{
+		<text>Pro @ViewBag.Insurence.TypeOfInsurence</text>
+	}
+</h1>
+
+<h4>Pojistná událost</h4>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="Description" class="control-label"></label>
+				<textarea asp-for="Description" class="form-control"></textarea>
+				<span asp-validation-for="Description" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="TimeOfEvent" class="control-label"></label>
+				<input asp-for="TimeOfEvent" class="form-control" />
+				<span asp-validation-for="TimeOfEvent" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="PlaceOfEvent" class="control-label"></label>
+				<input asp-for="PlaceOfEvent" class="form-control" />
+				<span asp-validation-for="PlaceOfEvent" class="text-danger"></span>
+			</div>
+			@if (ViewBag.Insurence == null)
+			{
+				<div class="form-group">
+					<label asp-for="InsurenceId" class="control-label"></label>
+					<select asp-for="InsurenceId" class="form-control" asp-items="ViewBag.InsurenceId"></select>
+				</div>
+			}
+			else
+			{
+				<input type="hidden" asp-for="InsurenceId" value="@ViewBag.Insurence.Id" />
+				<input type="hidden" name="insurenceRouteId" value="@ViewBag.Insurence.Id" />
+			}
+			<div class="form-group">
+				<input type="submit" value="Vytvořit" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="Index">Zpátky na seznam</a>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

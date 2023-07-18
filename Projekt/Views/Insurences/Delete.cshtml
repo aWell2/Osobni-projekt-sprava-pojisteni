@@ -1,0 +1,64 @@
+﻿@model Projekt.Models.Insurence
+
+@{
+	ViewData["Title"] = "Odstranit";
+}
+
+<h1>Odstranit</h1>
+
+<h3>jste si jistý že chcete odstranit pojištění?</h3>
+<div>
+	<h4>Pojištění</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.TypeOfInsurence)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.TypeOfInsurence)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Amount)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Amount)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ValidFrom)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ValidFrom)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ValidUntil)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ValidUntil)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.SubjectOfInsurence)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.SubjectOfInsurence)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.InsurenceHolder)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.InsurenceHolder.FirstName)
+			@Html.DisplayFor(model => model.InsurenceHolder.LastName)
+			:
+			@Html.DisplayFor(model => model.InsurenceHolder.Email)
+		</dd>
+	</dl>
+
+	<form asp-action="Delete">
+		<input type="hidden" asp-for="Id" />
+		@if (ViewBag.insurenceHolderRouteId != null)
+		{
+			<input type="hidden" name="insurenceHolderRouteId" value="@ViewBag.insurenceHolderRouteId">
+		}
+		<input type="submit" value="Odstranit" class="btn btn-danger" /> |
+		<a asp-action="Index">Zpátky na seznam</a>
+	</form>
+</div>
