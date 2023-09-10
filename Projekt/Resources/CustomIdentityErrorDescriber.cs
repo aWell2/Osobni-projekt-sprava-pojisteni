@@ -2,6 +2,7 @@
 
 namespace Projekt.Resources
 {
+	// Třída, která přeloží některé chyby volení hesla
 	public class CustomIdentityErrorDescriber : IdentityErrorDescriber
 	{
 		public override IdentityError PasswordRequiresNonAlphanumeric() { return new IdentityError { Code = nameof(PasswordRequiresNonAlphanumeric), Description = "Heslo musí mít alespoň jeden nealfanumerický znak." }; }

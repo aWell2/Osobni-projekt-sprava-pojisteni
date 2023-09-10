@@ -27,7 +27,7 @@ internal class Program
 			.AddMvcOptions(m =>
 			{
 				m.ModelBindingMessageProvider.SetValueMustBeANumberAccessor(
-					fieldName => string.Format("{0} musí být platné èíslo.", fieldName));
+					fieldName => string.Format("{0} musí být platné èíslo.", fieldName)); // Pøeloží zprávu pro upozornìní na nesprávnì zadaný vstup
 			});
 
 
@@ -78,9 +78,11 @@ internal class Program
 
 			if (await UserManager.FindByEmailAsync(email) == null)
 			{
-				var user = new IdentityUser();
-				user.UserName = email;
-				user.Email = email;
+				var user = new IdentityUser
+				{
+					UserName = email,
+					Email = email
+				};
 				await UserManager.CreateAsync(user, password);
 
 				await UserManager.AddToRoleAsync(user, "admin");

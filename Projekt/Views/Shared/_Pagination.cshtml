@@ -1,11 +1,12 @@
 ﻿@{
+	@*zapíná/vypína tlačitko*@
 	var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
 	var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+	@*Určuje zda se tlačítka dá zvolit přes tabulátor*@
 	var prevTab = !Model.HasPreviousPage ? "-1" : "0";
 	var nextTab = !Model.HasNextPage ? "-1" : "0";
 }
-
-
 
 <nav>
 	<ul class="pagination justify-content-center">

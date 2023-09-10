@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace Projekt.Models
 {
@@ -13,6 +14,7 @@ namespace Projekt.Models
 		public string TypeOfInsurence { get; set; } = string.Empty;
 
 		[Required(ErrorMessage = "Pole musí být vyplněno")]
+		[Range(0, double.MaxValue, ErrorMessage ="Částká nesmí být záporná")]
 		[Display(Name = "Částka")]
 		public decimal Amount { get; set; }
 
