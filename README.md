@@ -2,7 +2,9 @@
 
 
 Webová aplikace pro správu pojištěnců, pojištění a pojistných událostí.
+
 Databáze se vytváří pomocí Entity Framework Core.
+
 Aplikace byla vytvořena v rámci závěrečné zkoušky pro rekvalifikační kurz.
 
 
